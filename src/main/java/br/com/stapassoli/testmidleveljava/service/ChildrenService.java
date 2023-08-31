@@ -1,7 +1,8 @@
 package br.com.stapassoli.testmidleveljava.service;
 
+import br.com.stapassoli.testmidleveljava.entity.Children;
 import br.com.stapassoli.testmidleveljava.entity.Parent;
-import br.com.stapassoli.testmidleveljava.repository.ParentRepository;
+import br.com.stapassoli.testmidleveljava.repository.ChildrenRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.io.BufferedReader;
@@ -9,8 +10,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,16 +22,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-public class ParentService {
+public class ChildrenService {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    private final ParentRepository parentRepository;
+    private final ChildrenRepository childrenRepository;
 
-    private List<Parent> readCSV(MultipartFile file) throws IOException {
+    private List<Children> readCSV(MultipartFile file) throws IOException {
 
-        List<Parent> parents = new ArrayList<>();
+        List<Children> children = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             String line;
@@ -46,8 +49,10 @@ public class ParentService {
                 String[] fields = line.split(";");
                 Long id = (long) Integer.parseInt(fields[0]);
                 String name = fields[1];
+                Long fatherId = fields[2].equalsIgnoreCase("null") ? null : (long) Integer.parseInt(fields[2]);
+                Long motherId = fields[3].equalsIgnoreCase("null") ? null : (long) Integer.parseInt(fields[3]);
 
-                parents.add(new Parent(id, name));
+                children.add(new Children(id, name,fatherId,motherId));
 
             }
         } catch (IOException e) {
@@ -55,21 +60,25 @@ public class ParentService {
             throw (e);
         }
 
-        return parents;
+        return children;
     }
 
-    @Transactional
-    private void createParent(Parent parent) throws Exception {
 
-        final String QUERY = "INSERT INTO parent (id,name) VALUES (?,?)";
+
+    @Transactional
+    private void createChildren(Children children) throws Exception {
+
+        final String QUERY = "INSERT INTO children (id,name,father_id,mother_id) VALUES (?,?,?,?)";
 
         int rowsAffected = entityManager.createNativeQuery(QUERY)
-            .setParameter(1, parent.getId())
-            .setParameter(2, parent.getName())
+            .setParameter(1, children.getId())
+            .setParameter(2, children.getName())
+            .setParameter(3, Objects.nonNull(children.getFather().getId()) ? children.getFather().getId() : null)
+            .setParameter(4, Objects.nonNull(children.getMother().getId()) ? children.getMother().getId() : null)
             .executeUpdate();
 
         if (rowsAffected == 0) {
-            throw new Exception("Error on persist parent entity");
+            throw new Exception("Error on persist child entity");
         }
 
     }
@@ -79,8 +88,8 @@ public class ParentService {
 
         try {
 
-            for (Parent parent : readCSV(file)) {
-                createParent(parent);
+            for (Children children : readCSV(file)) {
+                createChildren(children);
             }
 
             return ResponseEntity.ok().build();

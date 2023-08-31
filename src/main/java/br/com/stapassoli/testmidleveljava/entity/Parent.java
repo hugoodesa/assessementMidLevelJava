@@ -14,18 +14,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class Parent implements ConvertFromCSV<Parent>{
+public class Parent  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @Override
-    public Parent tranformFieldsToEntity(String[] fields) {
-        Long id = (long) Integer.parseInt(fields[0]);
-        String name = fields[1];
-
-        return Parent.builder().id(id).name(name).build();
-    }
 }

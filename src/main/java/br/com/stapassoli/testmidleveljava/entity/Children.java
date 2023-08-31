@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class Children implements ConvertFromCSV<Children> {
+public class Children  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,19 +33,11 @@ public class Children implements ConvertFromCSV<Children> {
     @JoinColumn(name = "father_id")
     private Parent father;
 
-    @Override
-    public Children tranformFieldsToEntity(String[] fields) {
-        Long id = (long) Integer.parseInt(fields[0]);
-        String name = fields[1];
-        Long fatherId = (long) Integer.parseInt(fields[2]);
-        Long motherId = (long) Integer.parseInt(fields[3]);
-
-        return Children
-            .builder()
-            .id(id)
-            .name(name)
-            .father(Parent.builder().id(fatherId).build())
-            .mother(Parent.builder().id(motherId).build())
-            .build();
+    public Children(Long id, String name, Long motherId, Long fatherId) {
+        this.id = id;
+        this.name = name;
+        this.mother = Parent.builder().id(motherId).build();
+        this.father = Parent.builder().id(fatherId).build();
     }
+
 }
