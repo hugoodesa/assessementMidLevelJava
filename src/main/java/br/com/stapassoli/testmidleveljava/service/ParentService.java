@@ -8,9 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -88,6 +86,18 @@ public class ParentService {
             return ResponseEntity.badRequest().build();
         }
 
+    }
+
+    public ResponseEntity<List<String>> getAllFathersName() {
+        return ResponseEntity.ok(this.parentRepository.getAllFathersName());
+    }
+
+    public ResponseEntity<List<String>> getAllFathersNameMoreThanOneChild() {
+        return ResponseEntity.ok(this.parentRepository.getAllFathersNameMoreThanOneChild());
+    }
+
+    public ResponseEntity<Integer> getHowManyChildrenParentHas(String parentName) {
+        return ResponseEntity.ok(this.parentRepository.getHowManyChildrenParentHas(parentName));
     }
 
 }

@@ -99,4 +99,8 @@ public class ChildrenService {
 
     }
 
+    public ResponseEntity<String> getFathersName() {
+        this.childrenRepository.getFathersName();
+        return null;
+    }
 }

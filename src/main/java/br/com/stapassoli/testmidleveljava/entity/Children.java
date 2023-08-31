@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class Children  {
+public class Children {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +33,11 @@ public class Children  {
     @JoinColumn(name = "father_id")
     private Parent father;
 
-    public Children(Long id, String name, Long motherId, Long fatherId) {
+    public Children(Long id, String name, Long fatherId, Long motherId) {
         this.id = id;
         this.name = name;
-        this.mother = Parent.builder().id(motherId).build();
         this.father = Parent.builder().id(fatherId).build();
+        this.mother = Parent.builder().id(motherId).build();
     }
 
 }
