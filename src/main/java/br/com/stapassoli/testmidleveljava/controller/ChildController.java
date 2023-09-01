@@ -1,6 +1,8 @@
 package br.com.stapassoli.testmidleveljava.controller;
 
+import br.com.stapassoli.testmidleveljava.DTO.ChildParentProjection;
 import br.com.stapassoli.testmidleveljava.service.ChildrenService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +24,9 @@ public class ChildController {
         return childService.createParents(file);
     }
 
-    @GetMapping
-    public ResponseEntity<String> getFathersName() {
-        return childService.getFathersName();
+    @GetMapping("/children-and-parents-names")
+    public ResponseEntity<List<ChildParentProjection>> getChildNamesAndThemParents() {
+        return childService.getChildNamesAndThemParents();
     }
 
 }

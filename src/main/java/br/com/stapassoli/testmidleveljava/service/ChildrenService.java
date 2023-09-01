@@ -1,7 +1,7 @@
 package br.com.stapassoli.testmidleveljava.service;
 
+import br.com.stapassoli.testmidleveljava.DTO.ChildParentProjection;
 import br.com.stapassoli.testmidleveljava.entity.Children;
-import br.com.stapassoli.testmidleveljava.entity.Parent;
 import br.com.stapassoli.testmidleveljava.repository.ChildrenRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -9,10 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +49,7 @@ public class ChildrenService {
                 Long fatherId = fields[2].equalsIgnoreCase("null") ? null : (long) Integer.parseInt(fields[2]);
                 Long motherId = fields[3].equalsIgnoreCase("null") ? null : (long) Integer.parseInt(fields[3]);
 
-                children.add(new Children(id, name,fatherId,motherId));
+                children.add(new Children(id, name, fatherId, motherId));
 
             }
         } catch (IOException e) {
@@ -62,7 +59,6 @@ public class ChildrenService {
 
         return children;
     }
-
 
 
     @Transactional
@@ -99,8 +95,7 @@ public class ChildrenService {
 
     }
 
-    public ResponseEntity<String> getFathersName() {
-        this.childrenRepository.getFathersName();
-        return null;
+    public ResponseEntity<List<ChildParentProjection>> getChildNamesAndThemParents() {
+        return ResponseEntity.ok(this.childrenRepository.getChildrenAndThemParents());
     }
 }

@@ -10,10 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ParentRepository extends JpaRepository<Parent, Long> {
 
-    /*SELECT c.father_id ,p.name
-    FROM CHILDREN c
-    JOIN parent p on p.id = c.father_id*/
-
     @Query(value = "SELECT p.name FROM parent p", nativeQuery = true)
     List<String> getAllFathersName();
 
@@ -30,4 +26,6 @@ public interface ParentRepository extends JpaRepository<Parent, Long> {
         "JOIN children c on (c.father_id = p.id or c.mother_id = p.id) "+
         "WHERE p.name ilike :parentName ", nativeQuery = true)
     Integer getHowManyChildrenParentHas(@Param("parentName") String parentName);
+
+
 }
