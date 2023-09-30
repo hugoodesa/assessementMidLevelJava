@@ -11,6 +11,7 @@
 	<groupId>br.com.stapassoli</groupId>
 	<artifactId>test-mid-level-java</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>test-mid-level-java</name>
 	<description>test mid level java developer</description>
 	<properties>
