@@ -24,7 +24,7 @@ public class ChildController {
     @GetMapping("/hellow")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> sayHellow () {
-        return ResponseEntity.ok("Hellow");
+        return ResponseEntity.ok("Hellow World!");
     }
 
     @PostMapping
