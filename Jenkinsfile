@@ -2,7 +2,9 @@ pipeline{
     agent any
     stages{
         stage('begin'){
-            echo 'Hellow begin'
+            steps{
+                echo 'Hellow begin'
+            }
         }
     }
 }
