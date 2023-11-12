@@ -1,0 +1,17 @@
+version: '3'
+services:
+  backend-spring:
+    restart: always
+    container_name: app
+    build: .
+    ports:
+      - "9000:9000"
+    networks:
+      - rede_spring
+
+
+volumes:
+  volume_spring:
+
+networks:
+  rede_spring:
