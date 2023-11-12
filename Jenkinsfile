@@ -1,9 +1,13 @@
 pipeline{
     agent any
+    tools { 
+      maven 'MAVEN_DEFAULT' 
+      jdk 'JDK_DEFAULT' 
+    }
     stages{
         stage('Build BackEnd'){
             steps {
-                echo 'mvn clean package -DskipTests'
+               sh "mvn clean package -DskipTests=true"
             }
         }
     }
