@@ -15,12 +15,12 @@ pipeline{
                sh "mvn test"
             }
         }
-        stage('Build Docker'){
+        /*stage('Build Docker'){
             steps {
                sh "docker-compose build --no-cache"
                sh "docker-compose up --build"
             }
-        }
+        }*/
 
     }
     
